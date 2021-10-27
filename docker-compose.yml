@@ -1,0 +1,25 @@
+version: "3.6"
+
+x-default-volumes: &default_volumes
+    volumes:
+        - ./pipelines:/app/pipelines
+        - ./protos:/app/protos
+        - ./config:/app/config
+        - ./output_wrappers:/app/output_wrappers
+        - ./output_ue:/app/output_ue
+        - ./client_generator:/app/client_generator
+
+services:
+    gen_client:
+        build:
+            context: client_generator/.
+        image: "client_generator"
+        <<: *default_volumes
+        #command: './pipelines/gen_py.sh'
+
+    gen_ue:
+        build:
+            context: client_generator_unreal_engine/.
+        image: "client_generator_unreal_engine"
+        <<: *default_volumes
+        command: './pipelines/gen_ue.sh'
