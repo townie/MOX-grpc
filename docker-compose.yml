@@ -7,19 +7,19 @@ x-default-volumes: &default_volumes
         - ./config:/app/config
         - ./output_wrappers:/app/output_wrappers
         - ./output_ue:/app/output_ue
-        - ./client_generator:/app/client_generator
+        - ./generator_unreal_engine:/app/generator_unreal_engine
 
 services:
-    gen_client:
-        build:
-            context: client_generator/.
-        image: "client_generator"
-        <<: *default_volumes
-        #command: './pipelines/gen_py.sh'
+    # gen_client:
+    #     build:
+    #         context: generator_unreal_engine/.
+    #     image: "generator_unreal_engine"
+    #     <<: *default_volumes
+    #     command: './pipelines/gen_py.sh'
 
     gen_ue:
         build:
-            context: client_generator_unreal_engine/.
-        image: "client_generator_unreal_engine"
+            context: generator_unreal_engine/.
+        image: "generator_unreal_engine"
         <<: *default_volumes
         command: './pipelines/gen_ue.sh'

@@ -21,6 +21,7 @@ gen_root: 'M:\MOX-grpc\output_wrappers'
 # You may build these programs using build scripts from the Infraworld Runtime as well as use installed programs.
 #
 # Path can be either absolute, or relative to the working directory.
+# You must have successfully ran the InfraworldRuntime "Setup.bat" for this path to work
 programs_root: 'M:\InfraworldRuntime\GrpcPrograms'
 
 # Supported by protoc: [cpp, csharp, js, objc, php, python, ruby]
