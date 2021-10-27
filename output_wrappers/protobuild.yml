@@ -27,7 +27,7 @@ programs_root: 'M:\InfraworldRuntime\GrpcPrograms'
 # Supported by protoc-gen-go: go
 # Supported by protoc-gen-java: java
 languages:
-  #- cpp
+  - cpp
   - python
 
 
