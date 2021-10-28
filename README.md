@@ -1,8 +1,6 @@
 # MOX-proto
 
-## This repo contains all of the code needed to build & update the grpc clients in
-## MOX-services and MOX
-
+## This repo contains all of the code needed to build & update the grpc clients in MOX and MOX-services
 
 # High level design
 
