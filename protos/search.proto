@@ -1,4 +1,5 @@
 syntax = "proto3";
+package mox_proto;
 
 message SearchRequest {
   string query = 1;
