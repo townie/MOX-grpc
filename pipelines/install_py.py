@@ -2,19 +2,18 @@ import os
 import shutil, errno
 
 MOX_SERVICES_DIR = "M:\\MOX-services\\mox_backend\\mox\\repository"
-CPP_OUTPUT_DIR = "M:\\MOX-grpc\\output_wrappers\\cpp"
-UE_OUTPUT_DIR = "M:\\MOX-grpc\\output_ue\\out"
+PY_OUTPUT_DIR = "M:\\MOX-grpc\\output_wrappers\\python"
 
 def clean_old_mox_ue():
     os.mkdir(MOX_SERVICES_DIR)
 
 
-def copy_over_cpp_wrappers():
+def copy_over_python_wrappers():
 
-    dirs = [x[0] for x in os.walk(CPP_OUTPUT_DIR)]
+    dirs = [x[0] for x in os.walk(PY_OUTPUT_DIR)]
     print(dirs)
     for dir in dirs:
-        split = dir.split("output_wrappers\py")
+        split = dir.split("output_wrappers\python")
         if split[1] :
             print('found {}'.format(split[1]))
             for file_name in os.listdir(dir):
@@ -30,7 +29,7 @@ def copy_over_cpp_wrappers():
 
 
 def main():
-    copy_over_cpp_wrappers()
+    copy_over_python_wrappers()
 
 if __name__ == "__main__":
     main()

@@ -1,0 +1,52 @@
+syntax = "proto3";
+package mox_proto;
+
+message ProductDetailByMoxIdRequest {
+  string mox_id = 1;
+
+}
+message ProductDetailByProductIdRequest {
+  string product_id = 1;
+
+}
+message ProductDetailResponse {
+  string product_id = 1;
+
+  string product_name = 2;
+  string product_type = 3;
+  string short_description = 4;
+  string long_description = 5;
+
+  string mox_id = 6;
+
+  string default_img_url = 7;
+  string default_img_mesh_type = 8;
+
+  string pag_id = 9;
+  string opag_id = 10;
+
+}
+
+message ProductPageResponse {
+  message ProductDetailResponse {
+    string product_id = 1;
+    string product_name = 2;
+    string mox_id = 6;
+    string default_img_url = 7;
+    string default_img_mesh_type = 8;
+  }
+  repeated ProductDetailResponse result = 1;
+
+}
+
+message ProductPageRequest {
+  string page = 1;
+
+}
+
+service GreeterService {
+  rpc PDPByMoxID (ProductDetailByMoxIdRequest) returns (ProductDetailResponse) {}
+  rpc PDPByProductID (ProductDetailByProductIdRequest) returns (ProductDetailResponse) {}
+  rpc ProductsForPage (ProductPageRequest) returns (ProductPageResponse) {}
+
+}
