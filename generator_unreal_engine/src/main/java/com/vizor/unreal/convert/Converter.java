@@ -58,7 +58,7 @@ public class Converter
         this.moduleName = moduleName;
     }
 
-    public void convert(final Path srcPath, final List<Tuple<Path, DestinationConfig>> paths)
+    public void convert(final Path srcPath, final List<Tuple<Path, DestinationConfig>> paths, final String ueModulePath)
     {
         List<ProtoProcessorArgs> args = new ArrayList<>();
 
@@ -67,10 +67,10 @@ public class Converter
         pathsStream.forEach(pathPair -> {
             final Path pathToProto = pathPair.first();
             final DestinationConfig pathToConverted = pathPair.second();
-            
+
             String fileContent = null;
-            
-            try 
+
+            try
             {
                 fileContent = join(lineSeparator(), readAllLines(pathPair.first()));
             }
@@ -82,10 +82,10 @@ public class Converter
             final List<ProtoProcessorArgs> protoArgs = preProcess(parse(get(pathToProto.toString()), fileContent))
                 .stream()
                 .map(
-                    protoFile -> 
+                    protoFile ->
                     {
-                        final Path relativePath = srcPath.relativize(pathToProto); 
-                        return new ProtoProcessorArgs(protoFile, relativePath, pathToConverted, moduleName);
+                        final Path relativePath = srcPath.relativize(pathToProto);
+                        return new ProtoProcessorArgs(protoFile, relativePath, pathToConverted, moduleName, ueModulePath);
                     })
                 .collect(Collectors.toList());
 

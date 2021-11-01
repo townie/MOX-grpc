@@ -72,6 +72,7 @@ class PathConverter:
 
         return path[len(base_dir) + len(os.sep):]
 
+
     @staticmethod
     def to_absolute(base_dir: str, path: str):
         return os.path.join(base_dir, path)

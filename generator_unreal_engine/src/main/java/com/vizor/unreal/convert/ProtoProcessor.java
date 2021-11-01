@@ -77,8 +77,9 @@ import static org.apache.logging.log4j.LogManager.getLogger;
 class ProtoProcessorArgs
 {
     ProtoProcessorArgs(final ProtoFileElement parse, final Path pathToProto,
-    final DestinationConfig pathToConverted2, final String moduleName)
+    final DestinationConfig pathToConverted2, final String moduleName, final String ueModulePath)
     {
+        this.ueModulePath = requireNonNull(ueModulePath);
         this.parse = requireNonNull(parse);
         this.pathToProto = requireNonNull(pathToProto);
         this.pathToConverted = requireNonNull(pathToConverted2);
@@ -92,6 +93,8 @@ class ProtoProcessorArgs
 //            throw new RuntimeException("package filed in proto file is required for cornerstone");
 
         this.packageNamespace = new CppNamespace(parse.packageName());
+
+
     }
 
     final ProtoFileElement parse;
@@ -103,6 +106,8 @@ class ProtoProcessorArgs
 
     final String className;
     final CppNamespace packageNamespace;
+
+    final String ueModulePath;
 }
 
 class ProtoProcessor implements Runnable
@@ -124,7 +129,7 @@ class ProtoProcessor implements Runnable
         this.args = args;
         this.otherProcessorArgs = otherProcessorArgs;
     }
-    
+
     private Stream<ProtoProcessorArgs> GatherImportedProtos(final ProtoProcessorArgs proto, final List<ProtoProcessorArgs> otherProtos)
     {
         return otherProtos.stream()
@@ -134,7 +139,7 @@ class ProtoProcessor implements Runnable
     private Stream<ProtoProcessorArgs> GatherImportedProtosDeep(final ProtoProcessorArgs proto, final List<ProtoProcessorArgs> otherProtos)
     {
         final Stream<ProtoProcessorArgs> importedProtos = GatherImportedProtos(proto, otherProtos);
-        
+
         final List<ProtoProcessorArgs> argss = importedProtos.collect(Collectors.toList());
 
         return Stream.concat(Stream.of(proto), argss.stream().flatMap(importedProto->GatherImportedProtosDeep(importedProto, otherProtos))).distinct();
@@ -163,7 +168,7 @@ class ProtoProcessor implements Runnable
         final List<ServiceElement> services = args.parse.services();
 
         GatherTypes(args, otherProcessorArgs, ueProvider, protoProvider);
-        
+
 
         final List<Tuple<CppStruct, CppStruct>> castAssociations = new ArrayList<>();
         final List<CppStruct> unrealStructures = new ArrayList<>();
@@ -234,7 +239,7 @@ class ProtoProcessor implements Runnable
         // Should create an output directories if does not exit.
         @SuppressWarnings("unused")
         final boolean ignorePublic = dstPath.pathPublic.toFile().mkdirs();
-        
+
         @SuppressWarnings("unused")
         final boolean ignorePrivate = dstPath.pathPrivate.toFile().mkdirs();
 
@@ -265,15 +270,15 @@ class ProtoProcessor implements Runnable
                 new CppInclude(Header, args.className + ".generated.h")
             );
         }
-        
+
         final Config config = Config.get();
 
         // TODO: Fix paths
         final String generatedIncludeName = join("/", config.getWrappersPath(),
                 removeExtension(pathToProtoStr)).replace("\\", pathSeparator);//, args.wrapperName);
 
-        final String generatedHeaderPath = getHeaderPath(args);
-                
+        final String generatedHeaderPath =  getImportPath(args);
+
         final String castIncludeName = generatedHeaderPath + "Casts.h";
 
         // code. mutable to allow
@@ -294,7 +299,7 @@ class ProtoProcessor implements Runnable
             new CppInclude(Cpp, "GrpcIncludesEnd.h"),
             new CppInclude(Cpp, castIncludeName)
         ));
-        
+
         final List<CppRecord> castsIncludes = new ArrayList<>(asList(
             new CppInclude(Header, "CastUtils.h"),
 
@@ -319,12 +324,12 @@ class ProtoProcessor implements Runnable
 
         final DestinationConfig outFilePath = dstPath.append(args.className);
         final DestinationConfig outCastsFilePath = dstPath.append(args.className + "Casts");
-        
+
         try (final CppPrinter castsPrinter = new CppPrinter(outCastsFilePath, args.moduleName.toUpperCase(), HeaderType.Private))
         {
             castsIncludes.forEach(i -> i.accept(castsPrinter));
             castsPrinter.newLine();
-    
+
             // Write casts to the CPP file
             casts.accept(castsPrinter).newLine();
         }
@@ -366,12 +371,20 @@ class ProtoProcessor implements Runnable
     {
         // remove extension and fix slashes up
         final String pathToGeneratedHeaderDirectory = removeExtension(args.pathToProto.toString()).replace("\\", pathSeparator);
-                
+
         final String generatedHeaderPath = join(pathSeparator, pathToGeneratedHeaderDirectory, args.className);
 
         return generatedHeaderPath;
     }
+    private static String getImportPath(final ProtoProcessorArgs args)
+    {
+        // remove extension and fix slashes up
+        final String pathToGeneratedHeaderDirectory = args.ueModulePath.toString();
 
+        final String generatedHeaderPath = join(pathSeparator, pathToGeneratedHeaderDirectory, args.className);
+
+        return generatedHeaderPath;
+    }
     private CppStruct extractStruct(final TypesProvider provider, final MessageElement me)
     {
         final CppType type = provider.get(me.name());

@@ -8,20 +8,21 @@
 # A path, where *.proto source files resides.
 src_path: '..\protos'
 
+ue_module_path: 'MOX/gRPC'
 #
 # A path, where generated UE C++ public classes should be placed.
-dst_public_path: 'M:\MOX\MOX\Source\MOX\Public\grpc'
+dst_public_path: 'out'
 
 #
 # A path, where generated UE C++ private classes should be placed.
-dst_private_path: 'M:\MOX\MOX\Source\MOX\Private\grpc'
+dst_private_path: 'out'
 
 #
 # Name of the module (Needed to compute API, like MYMODULE_API)
 #
 # NOTE: Left it blank if you don't want to use API.
 # NOTE: If not left blank, it mustn't contain any spaces, this is checked in run-time.
-module_name: ''
+module_name: 'MOX'
 
 #
 # In case you're using precompiled headers - provide a valid relative or absolute path to the precompiled header.
@@ -33,7 +34,7 @@ precompiled_header: ''
 # This path is relative to the folder, you've added in project's either:
 #   * PublicIncludePaths
 #   * PrivateIncludePaths
-wrappers_path: ../'Wrappers'
+wrappers_path:  'MOX/gRPC/gen'
 
 #
 # Company name will be used to declare category, where RPC methods will reside.

@@ -108,10 +108,10 @@ public class Main
         log.info("Company name: {}", config.getCompanyName());
         log.info("Wrappers path: %INCLUDE_DIR%/{}", config.getWrappersPath());
 
-        launchSingle(srcPath, dstPath, converter);
+        launchSingle(srcPath, dstPath, converter, config.getUeModulePath());
     }
 
-    private static void launchSingle(final Path srcPath, final DestinationConfig dstPath, final Converter converter)
+    private static void launchSingle(final Path srcPath, final DestinationConfig dstPath, final Converter converter, final String ueModulePath)
     {
         final long start = nanoTime();
 
@@ -119,7 +119,7 @@ public class Main
 
         // Display how many proto file(s) pending processed
         log.info("Running converter, {} proto-files pending processed.", paths.size());
-        converter.convert(srcPath, paths);
+        converter.convert(srcPath, paths, ueModulePath);
 
         final float elapsed = (float) round((double) (nanoTime() - start) / 1000000.0) / 1000.0f;
         log.info("All done in {} seconds. Shutting converter down...", elapsed);

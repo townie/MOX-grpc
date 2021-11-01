@@ -1,2 +1,6 @@
-pipelines/gen_wrappers.bat
-pipelines/gen_unreal.bat
+@echo off
+
+cd pipelines/
+gen_wrappers.bat
+gen_unreal.bat
+cd ..

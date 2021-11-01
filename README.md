@@ -61,3 +61,15 @@ Since protobuild has some dependent packages, you can install them by simply run
 
 Then you can run the program with:
 >`python main.py`
+
+
+# Now how to update the actual respective repositories
+
+# MOX-service
+This repo will automatically get updated with the new code once you run the `gen_all.sh`
+
+# MOX
+This will have the latest UE classes but lack the
+
+# NOTES
+You can not have folders inside of protos (FOR NOW)

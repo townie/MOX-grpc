@@ -1,4 +1,4 @@
-
+@echo off
 echo "Setting up project for PYTHON"
 
 echo "clean old"

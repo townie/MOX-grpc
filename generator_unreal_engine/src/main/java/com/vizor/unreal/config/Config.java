@@ -73,6 +73,9 @@ public final class Config
     private String srcPath;
 
     @ConfigField
+    private String ueModulePath;
+
+    @ConfigField
     private String dstPublicPath;
 
     @ConfigField
@@ -96,7 +99,6 @@ public final class Config
     @ConfigField
     private boolean noFork;
 
-
     public final String getSrcPath()
     {
         return srcPath;
@@ -105,6 +107,16 @@ public final class Config
     public void setSrcPath(String srcPath)
     {
         this.srcPath = srcPath;
+    }
+
+    public final String getUeModulePath()
+    {
+        return ueModulePath;
+    }
+
+    public void setUeModulePath(String ueModulePath)
+    {
+        this.ueModulePath = ueModulePath;
     }
 
     public final String getDstPublicPath()
@@ -296,6 +308,7 @@ public final class Config
         checkString(srcPath, "srcPath must not be null or empty");
         checkString(dstPublicPath, "dstPublicPath must not be null or empty");
         checkString(dstPrivatePath, "dstPrivatePath must not be null or empty");
+        checkString(ueModulePath, "ueModulePath must not be null or empty");
 
         for (int i = 0; i < moduleName.length(); i++)
         {

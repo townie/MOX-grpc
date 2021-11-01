@@ -5,12 +5,12 @@
 # Folder being searched for *.proto files.
 #
 # Path can be either absolute, or relative to the working directory.
-proto_root: 'protos'
+proto_root: 'M:\MOX-grpc\protos'
 
 # Folder, where generated files will be put.
 #
 # Path can be either absolute, or relative to the working directory.
-gen_root: 'output_wrappers'
+gen_root: ''
 
 # Path to the protoc and grpc plugins, being used for code generation. Since these binaries are platform-dependent,
 # the provided path does not include the 'platform' folder suffix, which is:
