@@ -44,7 +44,7 @@ message ProductPageRequest {
 
 }
 
-service GreeterService {
+service ProductService {
   rpc PDPByMoxID (ProductDetailByMoxIdRequest) returns (ProductDetailResponse) {}
   rpc PDPByProductID (ProductDetailByProductIdRequest) returns (ProductDetailResponse) {}
   rpc ProductsForPage (ProductPageRequest) returns (ProductPageResponse) {}
