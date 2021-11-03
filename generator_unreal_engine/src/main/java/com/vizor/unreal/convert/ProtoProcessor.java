@@ -166,7 +166,7 @@ class ProtoProcessor implements Runnable
     public void run()
     {
         final List<ServiceElement> services = args.parse.services();
-
+        log.info("Found type cast {}  ", services);
         GatherTypes(args, otherProcessorArgs, ueProvider, protoProvider);
 
 
