@@ -6,7 +6,7 @@
 
 #
 # A path, where *.proto source files resides.
-src_path: '..\protos'
+src_path: 'M:\MOX-grpc\protos'
 
 ue_module_path: 'MOX/gRPC'
 #
