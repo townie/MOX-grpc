@@ -26,7 +26,22 @@ message ProductDetailResponse {
   string opag_id = 10;
 
 }
+message ProductResponse {
+  string product_id = 1;
 
+  string product_name = 2;
+  string product_type = 3;
+  string short_description = 4;
+  string long_description = 5;
+
+  string mox_id = 6;
+
+  string default_img_url = 7;
+  string default_img_mesh_type = 8;
+  string purchase_url = 9;
+
+
+}
 message ProductPageResponse {
   message ProductDetailResponse {
     string product_id = 1;
@@ -38,15 +53,44 @@ message ProductPageResponse {
   repeated ProductDetailResponse result = 1;
 
 }
+message SearchResultResponse {
+  repeated ProductResponse result = 1;
+}
 
 message ProductPageRequest {
   string page = 1;
+}
 
+message ProductPageSearchRequest {
+  string query = 1;
+  int32 page = 2;
+  int32 n = 3;
+}
+
+message ProductsByTypeRequest {
+  string product_type = 1;
+  int32 page = 2;
+  int32 n = 3;
+}
+
+message  UnqiueProductSetRequest {
+  string name = 1;
+  int32 page = 2;
+  int32 n = 3;
+}
+
+message  TopProductRequest {
+  string name = 1;
+  int32 page = 2;
+  int32 n = 3;
 }
 
 service ProductService {
   rpc PDPByMoxID (ProductDetailByMoxIdRequest) returns (ProductDetailResponse) {}
   rpc PDPByProductID (ProductDetailByProductIdRequest) returns (ProductDetailResponse) {}
   rpc ProductsForPage (ProductPageRequest) returns (ProductPageResponse) {}
-
+  rpc ProductSearch (ProductPageSearchRequest) returns (SearchResultResponse) {}
+  rpc ProductByTpeSearch (ProductsByTypeRequest) returns (SearchResultResponse) {}
+  rpc GetUnqiueProductSet (UnqiueProductSetRequest) returns (SearchResultResponse) {}
+  rpc GetTopNProducts (TopProductRequest) returns (SearchResultResponse) {}
 }
